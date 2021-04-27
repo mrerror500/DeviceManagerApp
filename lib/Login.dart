@@ -41,29 +41,73 @@ class _LoginPageState extends State<LoginPage> {
 
   _loginForm() =>
       Container(
-          //color: Colors.transparent,
+          color: Colors.grey[900],
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
           child: Form(
             key: _formKey,
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                Padding(
+                  padding: const EdgeInsets.all(80.0),
+                  child: Text(
+                    "Smart Home",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 30,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold
+                    ),
+                  ),
+                ),
                 TextFormField(
                   style: TextStyle(color: Colors.white),
                   cursorColor: Colors.white,
                   controller: _ctrlName,
-                  decoration: InputDecoration(labelText: 'Όνομα Χρήστη',
-                      labelStyle: TextStyle(color: Colors.white)),
+                  decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                          borderSide: BorderSide(
+                            color: Colors.white,
+                            width: 2.0
+                          )
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                         borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                        borderSide: BorderSide(
+                          color: Colors.white
+                        )
+                      ),
+                    labelText: 'Όνομα Χρήστη',
+                    labelStyle: TextStyle(color: Colors.white)
+                  ),
                   onSaved: (val) => setState(() => _user.name = val),
                   validator: (val) =>
                   (val.length == 0
                       ? 'Μη έγκυρο όνομα χρήστη'
                       : null),
                 ),
+                SizedBox(height: 25.0),
                 TextFormField(
                   style: TextStyle(color: Colors.white),
                   cursorColor: Colors.white,
                   controller: _ctrlPasscode,
-                  decoration: InputDecoration(labelText: 'Κωδικός Πρόσβασης',
+                  decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                          borderSide: BorderSide(
+                              color: Colors.white,
+                              width: 2.0
+                          )
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                        borderSide: BorderSide(
+                          color: Colors.white
+                        )
+                      ),
+                      labelText: 'Κωδικός Πρόσβασης',
                       labelStyle: TextStyle(color: Colors.white)),
                   onSaved: (val) => setState(() => _user.password = val),
                   validator: (val) =>
@@ -76,38 +120,49 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
+                      margin: EdgeInsets.all(10.0),
+                      child: ButtonTheme(
+                        minWidth: 130.0,
+                        height: 50.0,
+                        // ignore: deprecated_member_use
+                        child: RaisedButton(
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(30.0)
+                          ),
+                          child: Text('Άκυρο'),
+                          onPressed: () {
+                            _clearAll();
+                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);
+                          },
+                          color: Colors.white,
+                          textColor: Colors.black,
+                        ),
+                      ),
+                    ),
+                    Container(
                         margin: EdgeInsets.all(10.0),
                         child: ButtonTheme(
                           minWidth: 130.0,
                           height: 50.0,
                           // ignore: deprecated_member_use
                           child: RaisedButton(
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(30.0)
+                            ),
                             child: Text('Σύνδεση'),
                             onPressed: () {
                               _onSubmit();
                             },
-                            color: Colors.blueGrey[200],
-                            textColor: Colors.white,
+                            color: Colors.white,
+                            textColor: Colors.black,
                           ),
                         )
                     ),
                   ],
                 ),
-                Container(
-                  margin: EdgeInsets.all(10.0),
-                  // ignore: deprecated_member_use
-                  child: RaisedButton(
-                    child: Text('Άκυρο'),
-                    onPressed: () {
-                      _clearAll();
-                    },
-                    color: Colors.blueGrey[200],
-                    textColor: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          )
+                ],
+              ),
+          ),
       );
 
   _clearAll() {
