@@ -27,6 +27,12 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("images/app_icon.png"),
+                fit:BoxFit.cover
+              )
+            ),
             child: Scaffold(
                 backgroundColor: Colors.transparent,
                 appBar: AppBar(
@@ -61,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 shape: new RoundedRectangleBorder(
                                   borderRadius: new BorderRadius.circular(30.0)
                                 ),
-                                child: Text('Sign up'),
+                                child: Text('Εγγραφή'),
                                   onPressed: () {
                                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SignUpPage()), (Route<dynamic> route) => false);
                                   },
@@ -80,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 shape: new RoundedRectangleBorder(
                                   borderRadius: new BorderRadius.circular(30.0)
                                 ),
-                                child: Text('Log in'),
+                                child: Text('Σύνδεση'),
                                   onPressed: () {
                                     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginPage()), (Route<dynamic> route) => false);
                                   },

@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
-import 'package:smart_manager/Login.dart';
-
 import 'DatabaseSetUp/Database.dart';
 import 'HomePage.dart';
 import 'Model/User.dart';
 import 'RoomPage.dart';
 
+
+List<String>roomName = [];
 class UserMenu extends StatefulWidget {
   final User user;
   const UserMenu(this.user);
@@ -27,7 +27,6 @@ class _UserMenuState extends State<UserMenu> {
       _dbProvider = DBProvider.dbProviderInstance;
     });
   }
-  List<String>roomName = [];
   int _currentIndex=0;
 
   final myController = TextEditingController();
@@ -44,18 +43,6 @@ class _UserMenuState extends State<UserMenu> {
       backgroundColor: Colors.grey[800],
       appBar: AppBar(
           backgroundColor: Colors.transparent,
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.settings,
-                size: 30,
-                color: Colors.white
-              ),
-              onPressed: (){
-                //Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>MyHomePage()),(Route<dynamic> route)=>false);
-              },
-            )
-          ],
           title: Row(
             mainAxisAlignment:MainAxisAlignment.start,
             children: [
@@ -145,56 +132,49 @@ class _UserMenuState extends State<UserMenu> {
           items:[
             BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.home_outlined,
-                  size: 30
-                ),
-                label: 'Home',
-                backgroundColor: Colors.grey
-            ),
-            BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.add_box_outlined,
-                  size: 30
-                ),
-                label: 'Add Room',
-                backgroundColor: Colors.grey
-            ),
-            BottomNavigationBarItem(
-                icon: Icon(
                   Icons.info_outline,
                   size: 30
                 ),
-                label: 'Help',
+                label: 'Βοήθεια',
                 backgroundColor: Colors.grey
             ),
+
             BottomNavigationBarItem(
                 icon: Icon(
                   Icons.logout,
                   size: 30,
                 ),
-                label:'Exit',
+                label:'Αποσύνδεση',
                 backgroundColor: Colors.grey
             ),
           ],
           onTap: (val){
             setState((){
               _currentIndex = val;
-              if(_currentIndex == 1){
-                getText(context, "Add room").then((name){
-                  if(name!= null && name != ""&& name != " "){
-                    roomName.add(name);
-                    print(roomName.length);
-                    setState(() {});
-                  }
-                });
+              if(_currentIndex == 0){
+                _showDialog();
               }
-              if(_currentIndex == 3){
+              if(_currentIndex == 1){
                 Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
                     builder: (context)=>MyHomePage()),(Route<dynamic> route)=>false);
                 setState(() {});
               }
             });
-          }
+          },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: new FloatingActionButton(onPressed: (){
+          getText(context, "Προσθήκη Δωματίου").then((name){
+            if(name!= null && name != ""&& name != " "){
+
+              setState(() {
+                roomName.add(name);
+                print(roomName.length);
+              });
+            }
+          });
+        },
+        child: new Icon(Icons.add),
       ),
     );
   }
@@ -267,5 +247,34 @@ class _UserMenuState extends State<UserMenu> {
     );
     if (!ok) return "";
     return txt;
+  }
+  Future<void> _showDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Μάλλον χρειάζεσαι βοήθεια...'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('- Για να προσθέσεις κάποιο δωμάτιο πάτησε το +'),
+                Text('- Για να προσθέσεις συσκευές σε κάποιο δωμάτιο πάτησε το δωμάτιο που θες'),
+                Text('- Για να αφαιρέσεις κάποιο δωμάτιο επίλεξε το δωμάτιο και σύρε προς τα αριστερά'),
+                Text('- Για να αποσυνδεθείς πάτα το κάτω δεξιά σύμβολο'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

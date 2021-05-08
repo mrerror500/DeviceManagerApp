@@ -45,137 +45,162 @@ class _SignUpPageState extends State<SignUpPage> {
       padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
       child: Form(
         key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: ListView(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: Text(
-                "Smart Home",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 30,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold
-                ),
-              ),
-            ),
-            TextFormField(
-              style: TextStyle(color: Colors.white),
-              cursorColor: Colors.white,
-              controller: _ctrlMail,
-              decoration: InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                  borderSide: BorderSide(
-                    color: Colors.white
-                  )
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                  borderSide: BorderSide(
-                    color: Colors.white
-                  )
-                ),
-                labelText: 'E-mail',
-                labelStyle:TextStyle(color: Colors.white)),
-              onSaved: (val)=>setState(()=>_user.email=val),
-              validator: (val)=>(val.length==0 ? 'Μη έγκυρο e-mail':null),
-            ),
-            SizedBox(height: 25.0),
-            TextFormField(
-              style: TextStyle(color: Colors.white),
-              controller: _ctrlName,
-              decoration: InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                      borderSide: BorderSide(
-                          color: Colors.white
-                      )
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                      borderSide: BorderSide(
-                          color: Colors.white
-                      )
-                  ),
-                labelText: 'Όνομα Χρήστη',
-                labelStyle:TextStyle(color: Colors.white)),
-              onSaved: (val)=>setState(()=>_user.name=val),
-              validator: (val)=>(val.length==0 ? 'Μη έγκυρο όνομα χρήστη':null),
-            ),
-            SizedBox(height: 25.0),
-            TextFormField(
-              style: TextStyle(color: Colors.white),
-              controller: _ctrlPasscode,
-              decoration: InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                      borderSide: BorderSide(
-                          color: Colors.white
-                      )
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                      borderSide: BorderSide(
-                          color: Colors.white
-                      )
-                  ),
-              labelText: 'Κωδικός Πρόσβασης',
-              labelStyle:TextStyle(color: Colors.white)),
-              onSaved: (val)=>setState(()=>_user.password=val),
-              validator: (val)=>(val.length==0 ? 'Μη έγκυρος κωδικός πρόσβασης':null),
-              obscureText: true,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Container(
-                  margin: EdgeInsets.all(10.0),
-                  child: ButtonTheme(
-                    minWidth: 130.0,
-                    height: 50.0,
-                    // ignore: deprecated_member_use
-                    child: RaisedButton(
-                      shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(30.0)
-                    ),
-                      child: Text('Cancel'),
-                        onPressed: () {
-                          _ctrlPasscode.clear();
-                          _ctrlName.clear();
-                          _formKey.currentState.reset();
-                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);
-                        },
-                      color: Colors.white,
-                      textColor: Colors.black,
+                Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: Text(
+                    "SmartApp",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 30,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold
                     ),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.all(10.0),
-                  child: ButtonTheme(
-                    minWidth: 130.0,
-                    height: 50.0,
-                    // ignore: deprecated_member_use
-                    child: RaisedButton(
-                      shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(30.0)
+                TextFormField(
+                  style: TextStyle(color: Colors.white),
+                  cursorColor: Colors.white,
+                  controller: _ctrlMail,
+                  decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                          borderSide: BorderSide(
+                              color: Colors.white
+                          )
                       ),
-                      child: Text('Sign up'),
-                      onPressed: () {
-                        _onSubmit();
-                      },
-                      color: Colors.white,
-                      textColor: Colors.black,
-                    ),
-                  )
-                )
-              ]
-            ),
-            ],
-      )
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                          borderSide: BorderSide(
+                              color: Colors.white
+                          )
+                      ),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                          borderSide: BorderSide(
+                              color: Colors.red,
+                              width: 2.0
+                          )
+                      ),
+                      labelText: 'E-mail',
+                      labelStyle:TextStyle(color: Colors.white)),
+                  onSaved: (val)=>setState(()=>_user.email=val),
+                  validator: (val)=>(val.length==0 ? 'Μη έγκυρο e-mail':null),
+                ),
+                SizedBox(height: 25.0),
+                TextFormField(
+                  style: TextStyle(color: Colors.white),
+                  controller: _ctrlName,
+                  decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                          borderSide: BorderSide(
+                              color: Colors.white
+                          )
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                          borderSide: BorderSide(
+                              color: Colors.white
+                          )
+                      ),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                          borderSide: BorderSide(
+                              color: Colors.red,
+                              width: 2.0
+                          )
+                      ),
+                      labelText: 'Όνομα Χρήστη',
+                      labelStyle:TextStyle(color: Colors.white)),
+                  onSaved: (val)=>setState(()=>_user.name=val),
+                  validator: (val)=>(val.length==0 ? 'Μη έγκυρο όνομα χρήστη':null),
+                ),
+                SizedBox(height: 25.0),
+                TextFormField(
+                  style: TextStyle(color: Colors.white),
+                  controller: _ctrlPasscode,
+                  decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                          borderSide: BorderSide(
+                              color: Colors.white
+                          )
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                          borderSide: BorderSide(
+                              color: Colors.white
+                          )
+                      ),
+                      errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                          borderSide: BorderSide(
+                              color: Colors.red,
+                              width: 2.0
+                          )
+                      ),
+                      labelText: 'Κωδικός Πρόσβασης',
+                      labelStyle:TextStyle(color: Colors.white)),
+                  onSaved: (val)=>setState(()=>_user.password=val),
+                  validator: (val)=>(val.length==0 ? 'Μη έγκυρος κωδικός πρόσβασης':null),
+                  obscureText: true,
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.all(10.0),
+                        child: ButtonTheme(
+                          minWidth: 130.0,
+                          height: 50.0,
+                          // ignore: deprecated_member_use
+                          child: RaisedButton(
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(30.0)
+                            ),
+                            child: Text('Άκυρο'),
+                            onPressed: () {
+                              _ctrlPasscode.clear();
+                              _ctrlName.clear();
+                              _formKey.currentState.reset();
+                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);
+                            },
+                            color: Colors.white,
+                            textColor: Colors.black,
+                          ),
+                        ),
+                      ),
+                      Container(
+                          margin: EdgeInsets.all(10.0),
+                          child: ButtonTheme(
+                            minWidth: 130.0,
+                            height: 50.0,
+                            // ignore: deprecated_member_use
+                            child: RaisedButton(
+                              shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(30.0)
+                              ),
+                              child: Text('Εγγραφή'),
+                              onPressed: () {
+                                _onSubmit();
+                              },
+                              color: Colors.white,
+                              textColor: Colors.black,
+                            ),
+                          )
+                      )
+                    ]
+                ),
+              ],
+            )
+          ],
+        ),
       )
   );
 

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_manager/HomePage.dart';
@@ -17,16 +19,19 @@ class RoomPage extends StatefulWidget{
 
 class _RoomPageState extends State<RoomPage>{
   DBProvider _dbProvider;
+  List<String> deviceName;
+  List<int> tapped;
 
   @override
   void initState(){
     super.initState();
     setState(() {
       _dbProvider = DBProvider.dbProviderInstance;
+      deviceName=[];
+      tapped=[];
     });
   }
-  List<String> deviceName = [];
-  List<int> tapped = [];
+
   int _currentIndex = 0;
 
   final myController = TextEditingController();
@@ -52,7 +57,21 @@ class _RoomPageState extends State<RoomPage>{
           )*/
       ),
       body: _viewRoom(),
-      bottomNavigationBar: _navBar(),
+      bottomNavigationBar:
+        _navBar(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: new FloatingActionButton(onPressed: (){
+        getDevice(context, "Προσθήκη Συσκευής").then((name) {
+          if(name!= null && name != ""&& name != " ") {
+            setState(() {
+              deviceName.add(name);
+              print(deviceName.length);
+            });
+          }
+        });
+      },
+        child: new Icon(Icons.add),
+      ),
     );
   }
 
@@ -143,34 +162,19 @@ class _RoomPageState extends State<RoomPage>{
           items:[
             BottomNavigationBarItem(
                 icon: Icon(
-                    Icons.home_outlined,
-                    size: 30
-                ),
-                label: 'Home',
-                backgroundColor: Colors.grey
-            ),
-            BottomNavigationBarItem(
-                icon: Icon(
-                    Icons.add_box_outlined,
-                    size: 30
-                ),
-                label: 'Add Device',
-                backgroundColor: Colors.grey
-            ),
-            BottomNavigationBarItem(
-                icon: Icon(
                     Icons.info_outline,
                     size: 30
                 ),
-                label: 'Help',
+                label: 'Βοήθεια',
                 backgroundColor: Colors.grey
             ),
+
             BottomNavigationBarItem(
                 icon: Icon(
                   Icons.logout,
                   size: 30,
                 ),
-                label:'Exit',
+                label:'Αποσύνδεση',
                 backgroundColor: Colors.grey
             ),
           ],
@@ -178,27 +182,17 @@ class _RoomPageState extends State<RoomPage>{
             setState(() {
               _currentIndex = val;
               if(_currentIndex == 0){
-                Navigator.pop(context);
-                setState(() {});
+                _showDialog();
               }
-              if(_currentIndex == 1) {
-                getDevice(context, "Add device").then((name) {
-                  if(name!= null && name != ""&& name != " ") {
-                    deviceName.add(name);
-                    print(deviceName.length);
-                    setState(() {});
-                  }
-                });
-              }
-              if(_currentIndex == 3){
+              if(_currentIndex == 1){
                 Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
                   builder: (context)=>MyHomePage()),(Route<dynamic> route)=>false);
                 setState(() {});
               }
             });
-
           }
-      );
+      )
+  ;
 
   Future<String> getDevice(BuildContext context, String message) async{
     String txt = "";
@@ -252,7 +246,7 @@ class _RoomPageState extends State<RoomPage>{
                   myController.clear();
                   Navigator.of(context, rootNavigator: true).pop('dialog');
                 },
-                child: const Text("Cancel")),
+                child: const Text("Άκυρο")),
             //ignore: deprecated_member_use
             new RaisedButton(
                 color: Colors.white,
@@ -265,11 +259,39 @@ class _RoomPageState extends State<RoomPage>{
                   myController.clear();
                   Navigator.of(context, rootNavigator: true).pop(context);
                 },
-                child: const Text("Ok"))
+                child: const Text("ΟΚ"))
           ],
         )
     );
     if (!ok) return "";
     return txt;
+  }
+  Future<void> _showDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Μάλλον χρειάζεσαι βοήθεια...'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('- Για να προσθέσεις κάποια συσκευή πάτησε το +'),
+                Text('- Για να αφαιρέσεις κάποια συσκευή επίλεξε τη συσκευή και σύρε προς τα αριστερά'),
+                Text('- Για να αποσυνδεθείς πάτα το κάτω δεξιά σύμβολο'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
