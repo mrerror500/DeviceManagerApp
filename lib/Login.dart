@@ -41,73 +41,150 @@ class _LoginPageState extends State<LoginPage> {
 
   _loginForm() =>
       Container(
-          //color: Colors.transparent,
+          color: Colors.grey[900],
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
           child: Form(
             key: _formKey,
-            child: Column(
+            child: ListView(
               children: [
-                TextFormField(
-                  style: TextStyle(color: Colors.white),
-                  cursorColor: Colors.white,
-                  controller: _ctrlName,
-                  decoration: InputDecoration(labelText: 'Όνομα Χρήστη',
-                      labelStyle: TextStyle(color: Colors.white)),
-                  onSaved: (val) => setState(() => _user.name = val),
-                  validator: (val) =>
-                  (val.length == 0
-                      ? 'Μη έγκυρο όνομα χρήστη'
-                      : null),
-                ),
-                TextFormField(
-                  style: TextStyle(color: Colors.white),
-                  cursorColor: Colors.white,
-                  controller: _ctrlPasscode,
-                  decoration: InputDecoration(labelText: 'Κωδικός Πρόσβασης',
-                      labelStyle: TextStyle(color: Colors.white)),
-                  onSaved: (val) => setState(() => _user.password = val),
-                  validator: (val) =>
-                  (val.length == 0
-                      ? 'Μη έγκυρος κωδικός πρόσβασης'
-                      : null),
-                  obscureText: true,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Container(
-                        margin: EdgeInsets.all(10.0),
-                        child: ButtonTheme(
-                          minWidth: 130.0,
-                          height: 50.0,
-                          // ignore: deprecated_member_use
-                          child: RaisedButton(
-                            child: Text('Σύνδεση'),
-                            onPressed: () {
-                              _onSubmit();
-                            },
-                            color: Colors.blueGrey[200],
-                            textColor: Colors.white,
+                    Padding(
+                      padding: const EdgeInsets.all(80.0),
+                      child: Text(
+                        "SmartApp",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: 30,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ),
+                    TextFormField(
+                        validator: (val) {
+                          if(val.isEmpty){
+
+                            return 'Μη έγκυρο όνομα χρήστη';
+                          }return null;
+                        },
+                      style: TextStyle(color: Colors.white),
+                      cursorColor: Colors.white,
+                      controller: _ctrlName,
+                      decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                              borderSide: BorderSide(
+                                  color: Colors.white,
+                                  width: 2.0
+                              )
                           ),
-                        )
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                              borderSide: BorderSide(
+                                  color: Colors.white
+                              )
+                          ),
+                          errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                              borderSide: BorderSide(
+                                  color: Colors.red,
+                                  width: 2.0
+                              )
+                          ),
+                          labelText: 'Όνομα Χρήστη',
+                          labelStyle: TextStyle(color: Colors.white)
+
+                      ),
+                      onSaved: (val) => setState(() => _user.name = val),
+
+                    ),
+                    SizedBox(height: 25.0),
+                    TextFormField(
+                        validator: (val) {
+                          if(val.isEmpty){
+                            return 'Μη έγκυρος κωδικός πρόσβασης';
+                          }return null;
+                        },
+                      style: TextStyle(color: Colors.white),
+                      cursorColor: Colors.white,
+                      controller: _ctrlPasscode,
+                      decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                              borderSide: BorderSide(
+                                  color: Colors.white,
+                                  width: 2.0
+                              )
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                              borderSide: BorderSide(
+                                  color: Colors.white
+                              )
+                          ),
+                          errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                              borderSide: BorderSide(
+                                  color: Colors.red,
+                                  width: 2.0
+                              )
+                          ),
+                          labelText: 'Κωδικός Πρόσβασης',
+                          labelStyle: TextStyle(color: Colors.white)),
+                      onSaved: (val) => setState(() => _user.password = val),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.all(10.0),
+                          child: ButtonTheme(
+                            minWidth: 100.0,
+                            height: 50.0,
+                            // ignore: deprecated_member_use
+                            child: RaisedButton(
+                              shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(30.0)
+                              ),
+                              child: Text('Άκυρο'),
+                              onPressed: () {
+                                _clearAll();
+                                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);
+                              },
+                              color: Colors.white,
+                              textColor: Colors.black,
+                            ),
+                          ),
+                        ),
+                        Container(
+                            margin: EdgeInsets.all(10.0),
+                            child: ButtonTheme(
+                              minWidth: 100.0,
+                              height: 50.0,
+                              // ignore: deprecated_member_use
+                              child: RaisedButton(
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius: new BorderRadius.circular(30.0)
+                                ),
+                                child: Text('Σύνδεση'),
+                                onPressed: () {
+                                  _onSubmit();
+                                },
+                                color: Colors.white,
+                                textColor: Colors.black,
+                              ),
+                            )
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                Container(
-                  margin: EdgeInsets.all(10.0),
-                  // ignore: deprecated_member_use
-                  child: RaisedButton(
-                    child: Text('Άκυρο'),
-                    onPressed: () {
-                      _clearAll();
-                    },
-                    color: Colors.blueGrey[200],
-                    textColor: Colors.white,
-                  ),
-                ),
               ],
-            ),
-          )
+            )
+          ),
       );
 
   _clearAll() {

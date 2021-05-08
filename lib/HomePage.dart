@@ -27,6 +27,12 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("images/app_icon.png"),
+                fit:BoxFit.cover
+              )
+            ),
             child: Scaffold(
                 backgroundColor: Colors.transparent,
                 appBar: AppBar(
@@ -42,20 +48,58 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                 ),
-                floatingActionButtonLocation: FloatingActionButtonLocation
-                    .centerFloat,
-                floatingActionButton: new FloatingActionButton(
-                  backgroundColor: Colors.blueGrey[700],
-                  onPressed: () {
-                    if (numOfUsers != 0)
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => LoginPage()));
-                    else
-                      Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => SignUpPage()));
-                  },
-                  child: new Icon(Icons.login),
-                )
+                body: Container(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children:[
+                          Container(
+                            margin: EdgeInsets.all(10.0),
+                            child: ButtonTheme(
+                              minWidth: 130.0,
+                              height: 50.0,
+                              // ignore: deprecated_member_use
+                              child: RaisedButton(
+                                shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(30.0)
+                                ),
+                                child: Text('Εγγραφή'),
+                                  onPressed: () {
+                                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => SignUpPage()), (Route<dynamic> route) => false);
+                                  },
+                                color: Colors.white,
+                                textColor: Colors.black,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.all(10.0),
+                            child: ButtonTheme(
+                              minWidth: 130.0,
+                              height: 50.0,
+                              // ignore: deprecated_member_use
+                              child: RaisedButton(
+                                shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(30.0)
+                                ),
+                                child: Text('Σύνδεση'),
+                                  onPressed: () {
+                                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginPage()), (Route<dynamic> route) => false);
+                                  },
+                                  color: Colors.white,
+                                  textColor: Colors.black,
+                              ),
+                            )
+                          ),
+                        ]
+                      )
+                    ],
+                  ),
+                ),
             )
         )
     );
