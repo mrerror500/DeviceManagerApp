@@ -183,7 +183,7 @@ class _RoomPageState extends State<RoomPage>{
               }
               if(_currentIndex == 1) {
                 getDevice(context, "Add device").then((name) {
-                  if (name != null && name != "") {
+                  if(name!= null && name != ""&& name != " ") {
                     deviceName.add(name);
                     print(deviceName.length);
                     setState(() {});

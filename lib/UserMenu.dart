@@ -181,7 +181,7 @@ class _UserMenuState extends State<UserMenu> {
               _currentIndex = val;
               if(_currentIndex == 1){
                 getText(context, "Add room").then((name){
-                  if(name!= null && name != ""){
+                  if(name!= null && name != ""&& name != " "){
                     roomName.add(name);
                     print(roomName.length);
                     setState(() {});
